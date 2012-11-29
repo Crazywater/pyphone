@@ -10,30 +10,37 @@ class Server():
   def __init__(self):
     self.netToAudio = NetToAudio()
     self.speaker = Speaker()
+    self.connected = False
     
   def listen(self):
     s = socket.socket()
     host = socket.gethostname()
     s.bind((host, Config.port))
-    print "Listening on host {0}, port {1}".format(host, Config.port)
-    s.listen(0)
     while True:
+      print "Listening on host {0}, port {1}".format(host, Config.port)
+      s.listen(0)
       (clientsocket, address) = s.accept()
       print "Incoming call from {0}".format(address)
+      self.connected = True
       self.recvFrom(clientsocket)
+      print "Call over."
   
   def recvFrom(self, clientsocket):
-    while True:
+    while self.connected:
       chunk = self.readChunk(clientsocket)
-      audio = self.netToAudio.process(chunk)
+      audio = self.netToAudio.convert(chunk)
       self.speaker.play(audio)
   
   def readChunk(self, clientsocket):
     msg = ''
+    chunksize = Config.net_chunksize
     while len(msg) < chunksize:
       chunk = clientsocket.recv(chunksize-len(msg))
       if not chunk:
-       raise RuntimeError("Socket disconnected.")
-      msg = msg + chunk
+        print "Socket disconnected."
+        self.connected = False
+        break
+      else:     
+        msg = msg + chunk
     return msg
 

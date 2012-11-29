@@ -3,5 +3,5 @@ class Speaker():
   def __init__(self):
     pass
   
-  def play(audio):
+  def play(self, audio):
     pass

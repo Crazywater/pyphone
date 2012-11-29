@@ -14,11 +14,14 @@ class Client():
     print "Connecting to {0}, port {1}".format(host, Config.port)
     s.connect((host, Config.port))
     print "Connected."
+    self.microphone.init()
+    self.sendTo(s)
+    self.microphone.destroy()
     
   def sendTo(self, socket):
     while True:
       audio = self.microphone.nextAudioChunk()
-      chunk = self.audioToNet.process(audio)
+      chunk = self.audioToNet.convert(audio)
       self.sendChunk(chunk, socket)
   
   def sendChunk(self, chunk, socket):
