@@ -12,7 +12,7 @@ class Config:
   speex_fmt = 'h' # needs to match mic_format (int16, see python module struct)
   mic_chunksize = 1024
   net_chunksize = 2048
-  speex_quality = 10
+  speex_quality = 1
   speaker_log = "speaker.wav"
   mic_log = "mic.wav"
 
