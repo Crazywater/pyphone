@@ -14,7 +14,7 @@ class Server():
     
   def listen(self):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    host = socket.gethostname()
+    host = "0.0.0.0"
     s.bind((host, Config.port))
     self.speaker.init()
     self.recvFrom(s)
