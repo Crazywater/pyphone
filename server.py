@@ -22,11 +22,12 @@ class Server():
   
   def recvFrom(self, socket):
     print "Listening on port {0}".format(Config.port)
+
     while True:
       chunk = self.readChunk(socket)
       audio = self.netToAudio.convert(chunk)
       self.speaker.play(audio)
-  
+
   def readChunk(self, socket):
     data, addr = socket.recvfrom(Config.net_chunksize)
     return data
