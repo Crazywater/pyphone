@@ -2,15 +2,14 @@
 from config import Config
 from microphone import Microphone
 from audiotonet import AudioToNet
+from trafficprinter import TrafficPrinter
 import socket
-import time
 
 class Client():
   def __init__(self):
     self.microphone = Microphone()
     self.audioToNet = AudioToNet()
-    self.traffic = 0
-    self.lastTime = 0
+    self.trafficPrinter = TrafficPrinter()
     
   def call(self, host):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -27,13 +26,6 @@ class Client():
   
   def sendChunk(self, chunk, socket, host):
     socket.sendto(chunk, (host, Config.port))
-    self.addTraffic(len(chunk))
+    self.trafficPrinter.addTraffic(len(chunk))
   
-  def addTraffic(self, bytes):
-    self.traffic += bytes
-    now = time.time()
-    if now - self.lastTime > 1:
-      perSecond = float(self.traffic)
-      print "{0} KiB/s\r".format(perSecond/1024)
-      self.lastTime = now
-      self.traffic = 0
+
