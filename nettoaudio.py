@@ -4,4 +4,4 @@ class NetToAudio():
     pass
   
   def convert(self, netinput):
-    return ''
+    return netinput

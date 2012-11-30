@@ -13,34 +13,20 @@ class Server():
     self.connected = False
     
   def listen(self):
-    s = socket.socket()
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     host = socket.gethostname()
     s.bind((host, Config.port))
-    while True:
-      print "Listening on host {0}, port {1}".format(host, Config.port)
-      s.listen(0)
-      (clientsocket, address) = s.accept()
-      print "Incoming call from {0}".format(address)
-      self.connected = True
-      self.recvFrom(clientsocket)
-      print "Call over."
+    self.speaker.init()
+    self.recvFrom(s)
+    self.speaker.destroy()
   
-  def recvFrom(self, clientsocket):
-    while self.connected:
-      chunk = self.readChunk(clientsocket)
+  def recvFrom(self, socket):
+    print "Listening on port {0}".format(Config.port)
+    while True:
+      chunk = self.readChunk(socket)
       audio = self.netToAudio.convert(chunk)
       self.speaker.play(audio)
   
-  def readChunk(self, clientsocket):
-    msg = ''
-    chunksize = Config.net_chunksize
-    while len(msg) < chunksize:
-      chunk = clientsocket.recv(chunksize-len(msg))
-      if not chunk:
-        print "Socket disconnected."
-        self.connected = False
-        break
-      else:     
-        msg = msg + chunk
-    return msg
-
+  def readChunk(self, socket):
+    data, addr = socket.recvfrom(Config.net_chunksize)
+    return data

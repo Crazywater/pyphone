@@ -4,4 +4,4 @@ class AudioToNet():
     pass
    
   def convert(self, audioChunk):
-    return ''
+    return audioChunk

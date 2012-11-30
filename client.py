@@ -10,19 +10,17 @@ class Client():
     self.audioToNet = AudioToNet()
     
   def call(self, host):
-    s = socket.socket()
-    print "Connecting to {0}, port {1}".format(host, Config.port)
-    s.connect((host, Config.port))
-    print "Connected."
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self.microphone.init()
-    self.sendTo(s)
+    self.sendTo(s, host)
     self.microphone.destroy()
     
-  def sendTo(self, socket):
+  def sendTo(self, socket, host):
+    print "Sending to {0}, port {1}".format(host, Config.port)
     while True:
       audio = self.microphone.nextAudioChunk()
       chunk = self.audioToNet.convert(audio)
-      self.sendChunk(chunk, socket)
+      self.sendChunk(chunk, socket, host)
   
-  def sendChunk(self, chunk, socket):
-    socket.send(chunk)
+  def sendChunk(self, chunk, socket, host):
+    socket.sendto(chunk, (host, Config.port))
