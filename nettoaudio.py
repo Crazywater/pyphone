@@ -10,6 +10,6 @@ class NetToAudio():
   
   def convert(self, netinput):
     counter, payload = struct.unpack("!Ls", netinput)
-    print "Received packet {0}".format(counter)
+    #print "Received packet {0}".format(counter)
     ints = self.speex.decode(payload)
     return struct.pack(len(ints)*Config.speex_fmt, *ints)

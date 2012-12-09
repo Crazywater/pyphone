@@ -48,7 +48,6 @@ class Client():
 
   def callTo(self, host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    print s.getsockname()
     self.microphone.init()
     self.sendTo(s, host, port)
     self.microphone.destroy()
