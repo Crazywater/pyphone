@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import argparse
-from server import Server
-from client import Client
+from master import Master
 import pyaudio
 
 def main():
@@ -14,7 +13,8 @@ def main():
     help="List devices")
 
   args = parser.parse_args()
-  
+  master = Master()
+
   if args.devices:
     p = pyaudio.PyAudio()
     i = 0
@@ -25,11 +25,9 @@ def main():
       except:
         break
   if args.srv:
-    server = Server()
-    server.listen()
+    master.notifyServe()
   elif args.hostname:
-    client = Client()
-    client.call(args.hostname)
+    master.notifyCall(args.hostname)
   else:
     print "Please specify either --srv or --call."
     
