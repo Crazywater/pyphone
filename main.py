@@ -1,7 +1,8 @@
 #!/usr/bin/python
-import argparse
 from master import Master
+from config import Config
 import pyaudio
+import argparse
 
 def main():
   parser = argparse.ArgumentParser(description="Python Phone")
@@ -27,7 +28,7 @@ def main():
   if args.srv:
     master.notifyServe()
   elif args.hostname:
-    master.notifyCall(args.hostname)
+    master.notifyCall(args.hostname, Config.port)
   else:
     print "Please specify either --srv or --call."
     
