@@ -26,9 +26,9 @@ def main():
       except:
         break
   if args.srv:
-    master.notifyServe()
+    master.serve()
   elif args.hostname:
-    master.notifyCall(args.hostname, Config.port)
+    master.call(args.hostname, Config.port)
   else:
     print "Please specify either --srv or --call."
     

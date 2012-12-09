@@ -7,23 +7,23 @@ class Master():
     self.client = None
     self.server = None
 
-  def notifyCallOn(self, addr):
+  def call(self, host, port):
+    if self.client==None:
+      self.client = Client(self)
+      self.client.call(host, port)
+  
+  def callOn(self, addr):
     if self.client == None:
       self.client = Client(self)
       thread.start_new_thread(
         self.client.call, addr)
 
-  def notifyCall(self, host, port):
-    if self.client==None:
-      self.client = Client(self)
-      self.client.call(host, port)
-
-  def notifyServe(self):
+  def serve(self):
     if self.server==None:
       self.server = Server(self)
       self.server.listen()
 
-  def notifyServeOn(self, socket):
+  def serveOn(self, socket):
     if self.server==None:
       self.server = Server(self)
       thread.start_new_thread(

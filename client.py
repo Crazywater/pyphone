@@ -13,7 +13,7 @@ class Client():
   def call(self, host, port):
     self.microphone.init()
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    self.master.notifyServeOn(s)
+    self.master.serveOn(s)
     self.sendTo(s, host, port)
     self.microphone.destroy()
 
