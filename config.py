@@ -2,8 +2,8 @@
 import pyaudio
 
 class Config:
-  mic_device_index = 7 # use --dev to find out your device index
-  speaker_device_index = 7
+  mic_device_index = 13 # use --dev to find out your device index
+  speaker_device_index = 13
   port = 25527
   mic_rate = 44100
   mic_channels = 1
