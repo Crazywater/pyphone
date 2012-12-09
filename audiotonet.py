@@ -12,7 +12,8 @@ class AudioToNet():
     self.counter += 1
     fmt = len(audioChunk) / Config.mic_format_size * Config.speex_fmt
     ints = struct.unpack(fmt, audioChunk)
-    print "Sending packet {0}".format(self.counter)
     payload = self.speex.encode(ints)
-    return struct.pack("!Ls", self.counter, payload)
+    payloadsize = len(payload)
+    print "Sending packet {0} payloadsize {1}".format(self.counter, payloadsize)
+    return struct.pack("!LLs" + payloadsize, self.counter, payloadsize, payload)
     #return audioChunk

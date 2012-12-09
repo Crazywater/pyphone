@@ -23,6 +23,5 @@ class Speaker():
     self.log.destroy()
   
   def play(self, audio):
-   self.stream.write(audio)
-   self.log.log(audio)
-
+    self.stream.write(audio)
+    self.log.log(audio)
